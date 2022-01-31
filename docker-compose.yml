@@ -10,5 +10,3 @@ services:
     image: "beta"
     ports: 
       - 8081:80
-  nginx:
-  
