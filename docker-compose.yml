@@ -1,12 +1,22 @@
-version: "3.9"
+version: "3"
 services:
   alpha:
-    container-name: "alpha"
+    container_name: "alpha"
+    hostname: alpha
     image: "alpha"
     ports: 
       - 8080:80
   beta:
-    container-name: "beta"
+    container_name: "beta"
+    hostname: beta
     image: "beta"
     ports: 
       - 8081:80
+  loadbalancer:
+    container_name: "loadbalancer"
+    image: "loadbalancer"
+    depends_on:
+      - alpha
+      - beta
+    ports:
+      - 8082:80
