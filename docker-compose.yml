@@ -1,22 +1,40 @@
 version: "3"
 services:
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: localhost
+      MYSQL_USER: root
+      MYSQL_PASSWORD: test
+    volumes: 
+        - ./init:/docker-entrypoint-initdb.d
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8002:8080
   alpha:
     container_name: "alpha"
     hostname: alpha
     image: "alpha"
     ports: 
-      - 8080:80
+      - 5001:80
   beta:
     container_name: "beta"
     hostname: beta
     image: "beta"
     ports: 
-      - 8081:80
+      - 5002:80
   loadbalancer:
-    container_name: "loadbalancer"
-    image: "loadbalancer"
+    build:
+      context: loadbalancer/
+    ports:
+      - 8080:80
     depends_on:
       - alpha
       - beta
-    ports:
-      - 8082:80
+
+volumes:
+  site:
