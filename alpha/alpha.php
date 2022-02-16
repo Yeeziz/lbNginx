@@ -4,7 +4,12 @@ $username = "root";
 $password = "test";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password);
+try {
+  $db = new PDO('mysql:host=db;dbname=benchmarks', 'root', 'root');
+} catch (PDOException $e) {
+  print "Error!: " . $e->getMessage() . "<br/>";
+  die();
+}
 
 // Check connection
 if ($conn->connect_error) {

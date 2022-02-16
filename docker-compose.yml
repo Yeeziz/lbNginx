@@ -18,13 +18,15 @@ services:
   alpha:
     container_name: "alpha"
     hostname: alpha
-    image: "alpha"
+    build:
+      context: ./alpha
     ports: 
       - 5001:80
   beta:
     container_name: "beta"
     hostname: beta
-    image: "beta"
+    build:
+      context: ./beta
     ports: 
       - 5002:80
   loadbalancer:
