@@ -1,6 +1,6 @@
 tasks:
   - init: |
-      echo 'TODO: build project'
+      docker-compose up --build
     command: |
       docker-compose up
 ports:
