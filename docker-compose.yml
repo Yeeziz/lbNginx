@@ -15,18 +15,18 @@ services:
     restart: always
     ports:
       - 8002:8080
-  alpha:
-    container_name: "alpha"
-    hostname: alpha
+  firstlog:
+    container_name: "firstlog"
+    hostname: firstlog
     build:
-      context: ./alpha
+      context: ./firstlog
     ports: 
       - 5001:80
-  beta:
-    container_name: "beta"
-    hostname: beta
+  secondlog:
+    container_name: "secondlog"
+    hostname: secondlog
     build:
-      context: ./beta
+      context: ./secondlog
     ports: 
       - 5002:80
   loadbalancer:
@@ -35,8 +35,8 @@ services:
     ports:
       - 8080:80
     depends_on:
-      - alpha
-      - beta
+      - FirstLog
+      - SecondLog
 
 volumes:
   site:
