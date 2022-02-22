@@ -29,6 +29,13 @@ services:
       context: ./secondlog
     ports: 
       - 5002:80
+  secondfrontend:
+    container_name: "secondfrontend"
+    hostname: secondfrontend
+    build:
+      context: ./secondfrontend
+    ports:
+      - 5003:80
   loadbalancer:
     build:
       context: loadbalancer/

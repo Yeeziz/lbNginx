@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en" >
 <head>
@@ -64,7 +67,6 @@
 </body>
 </html>
 <?php
-$user = array("Nome"=>$_POST['name'], "User"=>$_POST['emailSign'], "Password"=>hash("sha256",$_POST['passwordSign']."5id"));
 $registerbutton = $_POST['registrazione'];
 $loginbutton = $_POST['accesso'];
 
@@ -81,25 +83,31 @@ if ($conn->connect_error) {
 }
 
 if (isset($registerbutton)) {
-  $retrieve = "SELECT * FROM UTENTI WHERE Nome = ?";
+  $user = array("Nome"=>$_POST['name'], "User"=>$_POST['emailSign'], "Password"=>hash("sha256",$_POST['passwordSign']."5id"));
+  $retrieve = "SELECT * FROM UTENTI WHERE Email = ?";
   $display=$db->prepare($retrieve);
-  $display->execute([$_POST['name']]);
-  if($display!=NULL){
+  $display->execute([$_POST['emailSign']]);
+  $data = $display->fetch(PDO::FETCH_ASSOC);
+  if($data['Email']==$user["User"]){
     $log = "INSERT INTO Utenti (Nome,Email,Password) VALUES (?,?,?)";
     $db->prepare($log)->execute([$user["Nome"],$user["User"],$user["Password"]]);
-    ?><meta http-equiv="refresh" content="0;url=http://www.example.com/"><?php
+    ?><meta http-equiv="refresh" content="0;url=https://5003-yeeziz-lbnginx-0t7bzrujxrd.ws-eu33.gitpod.io/"><?php
+    $_SESSION["email"]=$user["User"];
   } else {
     echo "<script type='text/javascript'>alert(Utente già registrato);</script>";
   }
 }
 if(isset($loginbutton)){
-  $retrieve = "SELECT * FROM UTENTI WHERE Nome = ?";
+  $user = array("User"=>$_POST['emailLog'], "Password"=>hash("sha256",$_POST['passwordLog']."5id"));
+  $retrieve = "SELECT * FROM UTENTI WHERE Password = ?";
   $display=$db->prepare($retrieve);
-  $display->execute([$_user["Nome"]]);
-  if($display==NULL){
+  $display->execute([$user["Password"]]);
+  $data = $display->fetch(PDO::FETCH_ASSOC);
+  if($data['Email']==$user["User"]){
     echo "<script type='text/javascript'>alert(Utente non esiste);</script>";
   }else{
-    ?><meta http-equiv="refresh" content="0;url=http://www.example.com/"><?php
+    ?><meta http-equiv="refresh" content="0;url=https://5003-yeeziz-lbnginx-0t7bzrujxrd.ws-eu33.gitpod.io/"><?php
+    $_SESSION["email"]=$user["User"];
   }
 }
 ?>
